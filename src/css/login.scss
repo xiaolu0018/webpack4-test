@@ -1,0 +1,14 @@
+
+
+.login-form{
+  width:400px;
+  padding:20px;
+  margin:50px auto;
+  background:$--base-bg;
+  text-align: left;
+  label{
+    display: inline-block;
+    width:100px;
+    text-align: right;
+  }
+}

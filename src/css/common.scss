@@ -1,0 +1,90 @@
+html,
+body {
+    height: auto;
+    margin: 0;
+    padding:0;
+    width: 100%;
+    overflow: auto;
+    font-size: $--base-font;
+    font-family: "Microsoft Yahei",'simsun',arial,verdana,sans-serif;
+    background: #fff;
+    color: $--color-base;
+}
+ul,
+dl,
+dd,
+dt,
+li,
+ol {
+    list-style: none;
+    padding: 0;
+    margin:0;
+}
+a{
+    text-decoration: none;
+    color:$--color-aLink;
+}
+
+
+th{
+    font-weight:normal;
+}
+
+
+//text-color
+
+.text-primary{
+    color:$--color-primary;
+}
+.text-danger{
+    color:$--color-danger;
+}
+.text-success{
+    color:$--color-success;
+}
+.text-warning{
+    color:$--color-warning;
+}
+.text-info{
+    color:$--color-info;
+}
+
+.clearfix {
+  *zoom:1;
+  &:before,
+  &:after {
+      display: table;
+      content: "";
+      height: 0;
+      line-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+  }
+  &:after {
+      clear: both;
+  }
+}
+
+//float
+.pull-left{
+    float:left;
+    @extend .clearfix;
+}
+.pull-right{
+    float:right;
+    @extend .clearfix;
+}
+
+
+.form-item{
+  margin-bottom:15px;
+}
+
+.btn{
+  padding:4px 8px;
+  margin:0;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+@import './alert.scss'

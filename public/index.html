@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>test</title>
+  <style>
+    #loading-mask {
+      display: block;
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 10;
+      background: rgba(247, 248, 249, 0.6);
+    }
+
+    #loading-index {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      text-align: center;
+      z-index: 11;
+    }
+
+    #loading-index>div {
+      width: 30px;
+      height: 30px;
+      background-color: #409eff;
+
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+      animation: bouncedelay 1.4s infinite ease-in-out;
+      /* Prevent first frame from flickering when animation starts */
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+
+    #loading-index .bounce1 {
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+
+    #loading-index .bounce2 {
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+
+    @-webkit-keyframes bouncedelay {
+
+      0%,
+      80%,
+      100% {
+        -webkit-transform: scale(0);
+      }
+
+      40% {
+        -webkit-transform: scale(1);
+      }
+    }
+
+    @keyframes bouncedelay {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+      }
+
+      40% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading-mask">
+    <div id="loading-index">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+  <div>webpack4 test</div>
+  <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</body>
+</html>

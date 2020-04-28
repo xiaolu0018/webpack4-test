@@ -1,0 +1,11 @@
+.alert-box{
+  box-shadow: 2px 2px 6px #000;
+  position: fixed;
+  z-index: 99;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  padding:12px 20px;
+  background-color:#fff;
+  border:1px solid transparent;
+}
