@@ -3,7 +3,8 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -22,8 +23,11 @@ module.exports = (env, argv) => {
     output: {
       filename: 'js/[name].js',
       path: path.resolve(__dirname, buildFolder),
-      libraryTarget:'umd'
+      libraryTarget: 'umd'
     },
+    /*
+      externd jq for cdn
+     */
     externals: {
       jquery: 'jQuery',
     },
@@ -127,14 +131,23 @@ module.exports = (env, argv) => {
         name: 'manifest'
       },
       minimizer: [
-        new UglifyJsPlugin({
+        /* webpack4 TerserPlugin替换UglifyJsPlugin */
+        new TerserPlugin({
           cache: true,
           parallel: true,
           sourceMap: productionSourceMap,
-          uglifyOptions: {
+          terserOptions: {
             warnings: false
           }
         }),
+        // new UglifyJsPlugin({
+        //   cache: true,
+        //   parallel: true,
+        //   sourceMap: productionSourceMap,
+        //   uglifyOptions: {
+        //     warnings: false
+        //   }
+        // }),
         new OptimizeCSSPlugin({
           cssProcessorOptions: productionSourceMap
             ? { safe: true, map: { inline: false } }
