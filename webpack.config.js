@@ -91,6 +91,7 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         ignoreOrder: true,
         filename: 'css/[name].[contenthash].css',
+        chunkFilename: "css/[name].[contenthash].css" // 非入口文件，如公共css
       }),
       new HtmlWebpackPlugin({
         filename: 'game.html',
@@ -155,8 +156,7 @@ module.exports = (env, argv) => {
         }),
       ],
       splitChunks: {
-        chunks: 'async',
-        minSize: 30000,
+        chunks: 'all',
         minChunks: 1,
         maxAsyncRequests: 5,
         maxInitialRequests: 3,
@@ -165,23 +165,16 @@ module.exports = (env, argv) => {
           common: {
             name: "common",
             chunks: "all",
-            minSize: 1,
-            priority: 0
+            minChunks: 2,        
+            reuseExistingChunk: true,
+            priority: 0,
+            minSize: 3000,
           },
           vendor: {
             name: 'vendor',
             chunks: 'initial',
-            priority: -10,
-            reuseExistingChunk: false,
+            priority: 10,
             test: /node_modules\/(.*)\.js/
-          },
-          styles: {
-            name: 'styles',
-            test: /\.(scss|css)$/,
-            chunks: 'all',
-            minChunks: 1,
-            reuseExistingChunk: true,
-            enforce: true
           }
         }
       }
@@ -242,6 +235,9 @@ module.exports = (env, argv) => {
       })
     )
   }
-
+  if (production) {
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+  }
   return webpackConfig
 };
