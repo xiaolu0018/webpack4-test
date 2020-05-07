@@ -12,7 +12,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = (env, argv) => {
   const buildFolder = 'dist';
   const production = argv.mode === 'production';
-  const productionSourceMap = true;
+  const productionSourceMap = !production;
   const productionGzip = production;//gzip
 
   const webpackConfig = {
@@ -21,7 +21,7 @@ module.exports = (env, argv) => {
       login: "./src/js/login.js",
     },
     output: {
-      filename: 'js/[name].js',
+      filename: 'js/[name].[hash].js',
       path: path.resolve(__dirname, buildFolder),
       libraryTarget: 'umd'
     },
@@ -83,6 +83,14 @@ module.exports = (env, argv) => {
           limit: 20000,
           name: 'img/[name].[hash:7].[ext]'
         }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 90000,
+          name: 'fonts/[name].[hash:7].[ext]'
+        }
       }]
     },
     plugins: [
@@ -94,7 +102,7 @@ module.exports = (env, argv) => {
         chunkFilename: "css/[name].[contenthash].css" // 非入口文件，如公共css
       }),
       new HtmlWebpackPlugin({
-        filename: 'game.html',
+        filename: 'index.html',
         template: 'public/index.html',
         favicon: './public/favicon.png',
         inject: true,
@@ -157,24 +165,21 @@ module.exports = (env, argv) => {
       ],
       splitChunks: {
         chunks: 'all',
-        minChunks: 1,
         maxAsyncRequests: 5,
         maxInitialRequests: 3,
         name: false,
         cacheGroups: {
-          common: {
-            name: "common",
-            chunks: "all",
-            minChunks: 2,        
-            reuseExistingChunk: true,
-            priority: 0,
-            minSize: 3000,
+          vendors: {
+            name: 'vendors',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10
           },
-          vendor: {
-            name: 'vendor',
-            chunks: 'initial',
-            priority: 10,
-            test: /node_modules\/(.*)\.js/
+          common: {
+            name: 'common',
+            minChunks: 2,
+            priority: 0,
+            reuseExistingChunk: true,
+            minSize:3000
           }
         }
       }
@@ -188,7 +193,7 @@ module.exports = (env, argv) => {
         return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
       }
     },
-    watch: true,
+    watch: !production,
     watchOptions: {
       aggregateTimeout: 600,
       ignored: /node_modules/,
@@ -217,7 +222,7 @@ module.exports = (env, argv) => {
         // HTML5 history模式
         rewrites: [
           { from: /^\/login$/, to: "/login.html" },
-          { from: /^\/$/, to: "/game.html" }
+          { from: /^\/$/, to: "/index.html" }
         ]
       }
     },
