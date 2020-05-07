@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --inline",
-    "ngx": "webpack --mode=production",
+    "build": "webpack --mode=production --config webpack.config.js",
+    "ngx": "webpack --mode=production --config webpack.pro.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
